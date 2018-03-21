@@ -83,74 +83,699 @@
 
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>原文 : 与佳期的个人博客(gonghonglou.com)</p>
-<p>作为一枚程序猿，没有一个自己的博客总说不过去，不管怎么样，免费的应该先弄一个出来，对自己也是一种积累。<br>在各种大佬的博客帮助下，学习搭建基于Github的Hexo博客，总的来说会少走不少弯路，不过还是会遇到一些情况，记录下一些自己碰到的小坑。</p>
-<p>一.环境配置</p>
-<p>Hexo官网上本就有对Hexo安装及使用的详细介绍，墙裂推荐。这里来讲述自己安装的亲身步骤，或有区别。<br>这些配置后期单独记录一下当时各种问题吧，现在都基于已经安装好这些环境配置了。</p>
-<p>1.Node.js</p>
-<p>用来生成静态页面。移步Node.js官网。</p>
-<p>2.Git</p>
-<p>用来将本地Hexo内容提交到Github上。Xcode自带Git，这里不再赘述。</p>
-<p>二.安装Hexo</p>
-<p>当Node.js和Git都安装好后就可以正式安装Hexo了，终端执行如下命令：</p>
-<p>$ sudo npm install -g hexo</p>
-<p>输入管理员密码（Mac登录密码）即开始安装 (sudo:linux系统管理指令 -g:全局安装)</p>
-<p>注意坑一：Hexo官网上的安装命令是$ npm install -g hexo-cli，安装时不要忘记前面加上sudo，否则会因为权限问题报错。</p>
-<p>初始化</p>
-<p>终端cd到一个你选定的目录，执行hexo init命令：</p>
-<p>$ hexo init Blog</p>
-<p>Blog是你建立的文件夹名称。cd到Blog文件夹下，执行如下命令，安装npm：</p>
-<p>$ npm install</p>
-<p>执行如下命令，开启hexo服务器：</p>
-<p>$ hexo s</p>
-<p>此时，浏览器中打开网址<a href="http://localhost:4000，能看到如下页面：" target="_blank" rel="noopener">http://localhost:4000，能看到如下页面：</a></p>
-<p>关联Github</p>
-<p>1.创建仓库</p>
-<p>登录你的Github帐号，新建仓库，名为用户名.github.io固定写法，如gordonpangsj.github.io即下图中1所示：</p>
-<p>本地的Blog文件夹下内容为：</p>
-<p>_config.yml<br>db.json<br>node_modules<br>package.json<br>scaffolds<br>source<br>themes</p>
-<p>终端cd到blog文件夹下，vim打开_config.yml，命令如下：</p>
-<p>$ vim _config.yml</p>
-<p>打开后往下滑到最后，修改成下边的样子：</p>
-<p>deploy:<br>  type: git<br>  repository: <a href="https://github.com/GordonPangsj/gordonpangsj.github.io.git" target="_blank" rel="noopener">https://github.com/GordonPangsj/gordonpangsj.github.io.git</a><br>  branch: master</p>
-<p>你需要将repository后gordonpangsj换成你自己的用户名，地址在上图2位置获取。hexo 3.1.1版本后type:值为git。</p>
-<p>注意坑二：在配置所有的_config.yml文件时（包括theme中的，在所有的冒号:后边都要加一个空格，否则执行hexo命令会报错，切记</p>
-<p>在Blog文件夹目录下执行生成静态页面命令：</p>
-<p>$ hexo generate    或者：hexo g</p>
-<p>此时若出现如下报错：</p>
-<p>ERROR Local hexo not found in ~/blog<br>ERROR Try runing: ‘npm install hexo –save’</p>
-<p>则执行命令：</p>
-<p>$ npm install hexo –save</p>
-<p>若无报错，自行忽略此步骤。</p>
-<p>再执行配置命令：</p>
-<p>$ hexo deploy          或者：hexo d</p>
-<p>注意坑三：若执行命令hexo deploy仍然报错：无法连接git或找不到git，则执行如下命令来安装hexo-deployer-git：</p>
-<p>$ npm install hexo-deployer-git –save</p>
-<p>再次执行hexo generate和hexo deploy命令。</p>
-<p>若你未关联Github，则执行hexo deploy命令时终端会提示你输入Github的用户名和密码，即</p>
-<p>Username for ‘<a href="https://github.com&#39;" target="_blank" rel="noopener">https://github.com&#39;</a>:<br>Password for ‘<a href="https://github.com&#39;" target="_blank" rel="noopener">https://github.com&#39;</a>:</p>
-<p>hexo deploy命令执行成功后，浏览器中打开网址<a href="https://gordonpangsj.github.io（将gordonpangsj换成你的用户名）能看到和打开http://localhost:4000时一样的页面。" target="_blank" rel="noopener">https://gordonpangsj.github.io（将gordonpangsj换成你的用户名）能看到和打开http://localhost:4000时一样的页面。</a></p>
-<p>2.发布文章</p>
-<p>终端cd到Blog文件夹下，执行如下命令新建文章：</p>
-<p>hexo new “Hello Hexo”</p>
-<p>名为Hello Hexo.md的文件会建在目录/Blog/source/_posts下。你当然可以用vim来编辑文章。我在用Mou编辑器，支持预览，不过MacOS Sierra并不支持，如果你有好用的markdown编辑器请推荐给我，感激不尽！</p>
-<p>文章编辑完成后，终端cd到Blog文件夹下，执行如下命令来发布：</p>
-<p>hexo generate                 //生成静态页面</p>
-<p>hexo deploy                   //将文章部署到Github</p>
-<p>至此，Mac上搭建基于Github的Hexo博客就完成了。</p>
-<p>Reference</p>
-<ul>
-<li>Hexo官网</li>
-<li><p>HEXO</p>
-</li>
-<li><p>如何生成SSH key</p>
-</li>
-</ul>
+      <div class="article-entry" itemprop="articleBody">
+          <div class="en-note">
+            <div id="en-note" class="editable">
+              <div>
+                <a href="https://link.jianshu.com/?t=http%3A%2F%2Fgonghonglou.com%2F2016%2F02%2F03%2Ffirstblog%2F" target="_blank"
+                  rel="nofollow" style="box-sizing: border-box; background-color: rgb(255, 255, 255); color: rgb(49, 148, 208); text-decoration: none; cursor: pointer; font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">原文 : 与佳期的个人博客(gonghonglou.com)</a>
+              </div>
+              <div>
+                <br>
+              </div>
+              <div>
+                <br>
+              </div>
+              <div>
+                <span style="font-family:-apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif;font-size:16px;">作为一枚程序猿，没有一个自己的博客总说不过去，不管怎么样，免费的应该先弄一个出来，对自己也是一种积累。</span>
+              </div>
+              <div>
+                <span style="font-family:-apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif;font-size:16px;">在各种大佬的博客帮助下，学习搭建基于Github的Hexo博客，总的来说会少走不少弯路，不过还是会遇到一些情况，记录下一些自己碰到的小坑。</span>
+              </div>
+              <div>
+                <br>
+              </div>
+              <div>
+                <div style="margin: 0px 0px 25px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: justify; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial;">
+                  <div>
+                    <div style="box-sizing: border-box; font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-weight: 700; color: rgb(47, 47, 47); margin: 0px 0px 15px; font-size: 24px; text-rendering: optimizeLegibility; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial;">
+                      <div>一.环境配置</div>
+                    </div>
+                    <div style="box-sizing: border-box; margin: 0px 0px 25px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial; word-break: break-word !important;">
+                      <div>
+                        <span style="color: rgb(47, 47, 47);">
+                          <span style="font-size: 16px;">
+                            <span style="font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif;">
+                              <a href="https://link.jianshu.com/?t=https%3A%2F%2Fhexo.io%2Fdocs" target="_blank" rel="nofollow"
+                                style="box-sizing: border-box; background-color: transparent; color: rgb(49, 148, 208); text-decoration: none; cursor: pointer;">Hexo官网</a>上本就有对Hexo安装及使用的详细介绍，墙裂推荐。这里来讲述自己安装的亲身步骤，或有区别。</span>
+                          </span>
+                        </span>
+                      </div>
+                      <div>
+                        <span style="color: rgb(47, 47, 47);">
+                          <span style="font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif;">
+                            <span style="font-size: 16px;">这些配置后期单独记录一下当时各种问题吧，现在都基于已经安装好这些环境配置了。</span>
+                          </span>
+                        </span>
+                      </div>
+                      <div>
+                        <span style="font-size: 16px;">
+                          <span style="font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif;">
+                            <span style="color: rgb(47, 47, 47);">
+                              <br>
+                            </span>
+                          </span>
+                        </span>
+                      </div>
+                      <div>
+                        <div style="box-sizing: border-box; font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-weight: 700; color: rgb(47, 47, 47); margin: 0px 0px 15px; font-size: 22px; text-rendering: optimizeLegibility; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial;">
+                          <div>1.Node.js</div>
+                        </div>
+                      </div>
+                      <div>
+                        <div style="box-sizing: border-box; margin: 0px 0px 25px; word-break: break-word !important; color: rgb(47, 47, 47); font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial;">
+                          <div>用来生成静态页面。移步
+                            <a href="https://link.jianshu.com/?t=https%3A%2F%2Fnodejs.org%2Fen%2F" target="_blank"
+                              rel="nofollow" style="box-sizing: border-box; background-color: transparent; color: rgb(49, 148, 208); text-decoration: none; cursor: pointer;">Node.js官网</a>。</div>
+                          <div>
+                            <br>
+                          </div>
+                          <div>
+                            <span style="font-size: 22px;">
+                              <b>2.Git</b>
+                            </span>
+                          </div>
+                        </div>
+                        <div style="box-sizing: border-box; margin: 0px 0px 25px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial; word-break: break-word !important;">
+                          <div>
+                            <span style="color: rgb(47, 47, 47);">
+                              <span style="font-size: 16px;">
+                                <span style="font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif;">用来将本地Hexo内容提交到Github上。Xcode自带Git，这里不再赘述。</span>
+                              </span>
+                            </span>
+                          </div>
+                          <div>
+                            <span style="color: rgb(47, 47, 47);">
+                              <span style="font-size: 16px;">
+                                <span style="font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif;">
+                                  <br>
+                                </span>
+                              </span>
+                            </span>
+                          </div>
+                          <div>
+                            <br>
+                          </div>
+                          <div>
+                            <b>
+                              <span style="font-size: 21px;">二.安装Hexo</span>
+                            </b>
+                          </div>
+                          <div>
+                            <b>
+                              <span style="font-size: 21px;">
+                                <br>
+                              </span>
+                            </b>
+                          </div>
+                          <div>
+                            <span style="color: rgb(47, 47, 47); font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;">当Node.js和Git都安装好后就可以正式安装Hexo了，终端执行如下命令：</span>
+                          </div>
+                          <div>
+                            <br>
+                          </div>
+                          <div>
+                            <pre style="box-sizing: border-box; overflow: auto; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 13px; display: block; padding: 15px; margin: 0px 0px 20px; word-break: break-word !important; word-wrap: normal; color: rgb(101, 123, 131); background: rgb(246, 246, 246); border: 1px solid rgb(204, 204, 204); border-radius: 0px; text-size-adjust: none; white-space: pre; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(101, 123, 131); background-color: transparent; border-radius: 0px; padding: 0px; white-space: pre; border: none;">$ sudo npm install -g hexo     </code></pre>
+                          </div>
+                          <div>
+                            <code></code>
+                            <span style="color: rgb(47, 47, 47); font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;">输入管理员密码（Mac登录密码）即开始安装 (</span>
+                            <code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(101, 123, 131); background-color: rgb(246, 246, 246); border-radius: 4px; padding: 2px 4px; border: none; white-space: pre-wrap; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;">sudo</code>
+                            <span style="color: rgb(47, 47, 47); font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;">:linux系统管理指令&nbsp;</span>
+                            <code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(101, 123, 131); background-color: rgb(246, 246, 246); border-radius: 4px; padding: 2px 4px; border: none; white-space: pre-wrap; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;">-g</code>
+                            <span style="color: rgb(47, 47, 47); font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;">:全局安装)</span>
+                          </div>
+                          <div>
+                            <br>
+                          </div>
+                          <div>
+                            <span style="color: rgb(47, 47, 47); font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(247, 247, 247); text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;">注意坑一：</span>
+                            <a href="https://link.jianshu.com/?t=https%3A%2F%2Fhexo.io%2Fdocs" target="_blank"
+                              rel="nofollow" style="box-sizing: border-box; background-color: rgb(247, 247, 247); color: rgb(49, 148, 208); text-decoration: none; cursor: pointer; font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">Hexo官网</a>
+                            <span style="color: rgb(47, 47, 47); font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(247, 247, 247); text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;">上的安装命令是</span>
+                            <code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(101, 123, 131); background-color: rgb(246, 246, 246); border-radius: 4px; padding: 2px 4px; border: none; white-space: pre-wrap; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;">$ npm install -g hexo-cli</code>
+                            <span style="color: rgb(47, 47, 47); font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(247, 247, 247); text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;">，安装时不要忘记前面加上</span>
+                            <code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(101, 123, 131); background-color: rgb(246, 246, 246); border-radius: 4px; padding: 2px 4px; border: none; white-space: pre-wrap; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;">sudo</code>
+                            <span style="color: rgb(47, 47, 47); font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(247, 247, 247); text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;">，否则会因为权限问题报错。</span>
+                          </div>
+                          <div>
+                            <br>
+                          </div>
+                          <div>
+                            <br>
+                          </div>
+                          <div>
+                            <b>
+                              <span style="font-size: 16px;">初始化</span>
+                            </b>
+                          </div>
+                          <div>
+                            <b>
+                              <span style="font-size: 16px;">
+                                <br>
+                              </span>
+                            </b>
+                          </div>
+                          <div>
+                            <span style="color: rgb(47, 47, 47); font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;">终端cd到一个你选定的目录，执行</span>
+                            <code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(101, 123, 131); background-color: rgb(246, 246, 246); border-radius: 4px; padding: 2px 4px; border: none; white-space: pre-wrap; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;">hexo init</code>
+                            <span style="color: rgb(47, 47, 47); font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;">命令：</span>
+                          </div>
+                          <div>
+                            <br>
+                          </div>
+                          <div>
+                            <div style="box-sizing: border-box; overflow: auto; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 13px; display: block; padding: 15px; margin: 0px 0px 20px; color: rgb(101, 123, 131); background: rgb(246, 246, 246); border: 1px solid rgb(204, 204, 204); border-radius: 0px; text-size-adjust: none; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;">
+                              <div>
+                                <code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(101, 123, 131); background-color: transparent; border-radius: 0px; padding: 0px; border: none;">$&nbsp;hexo&nbsp;init Blog</code>
+                              </div>
+                            </div>
+                          </div>
+                          <div>
+                            <br>
+                          </div>
+                          <div>
+                            <code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(101, 123, 131); background-color: rgb(246, 246, 246); border-radius: 4px; padding: 2px 4px; border: none; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;">Blog</code>
+                            <span style="color: rgb(47, 47, 47); font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;">是你建立的文件夹名称。cd到</span>
+                            <code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(101, 123, 131); background-color: rgb(246, 246, 246); border-radius: 4px; padding: 2px 4px; border: none; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;">Blog</code>
+                            <span style="color: rgb(47, 47, 47); font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;">文件夹下，执行如下命令，安装npm：</span>
+                          </div>
+                          <div>
+                            <br>
+                          </div>
+                          <div>
+                            <div style="box-sizing: border-box; overflow: auto; display: block; padding: 15px; margin: 0px 0px 20px; background: rgb(246, 246, 246); border: 1px solid rgb(204, 204, 204); border-radius: 0px; text-size-adjust: none; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;">
+                              <div>
+                                <code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(101, 123, 131); background-color: transparent; border-radius: 0px; padding: 0px; border: none;">$&nbsp;npm&nbsp;install</code>
+                              </div>
+                            </div>
+                          </div>
+                          <div>
+                            <span style="color: rgb(47, 47, 47); font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;">执行如下命令，开启hexo服务器：</span>
+                          </div>
+                          <div>
+                            <span style="font-size: 16px;">
+                              <span style="font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif;">
+                                <span style="background-color: rgb(255, 255, 255);">
+                                  <span style="color: rgb(47, 47, 47);">
+                                    <br>
+                                  </span>
+                                </span>
+                              </span>
+                            </span>
+                          </div>
+                          <div>
+                            <pre style="box-sizing: border-box; overflow: auto; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 13px; display: block; padding: 15px; margin: 0px 0px 20px; word-break: break-word !important; word-wrap: normal; color: rgb(101, 123, 131); background: rgb(246, 246, 246); border: 1px solid rgb(204, 204, 204); border-radius: 0px; text-size-adjust: none; white-space: pre; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(101, 123, 131); background-color: transparent; border-radius: 0px; padding: 0px; white-space: pre; border: none;">$ hexo s</code></pre>
+                          </div>
+                          <div>
+                            <br>
+                          </div>
+                          <div>
+                            <span style="color: rgb(47, 47, 47); font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;">此时，浏览器中打开网址</span>
+                            <a href="https://link.jianshu.com/?t=http%3A%2F%2F0.0.0.0%3A4000" target="_blank"
+                              rel="nofollow" style="box-sizing: border-box; background-color: rgb(255, 255, 255); color: rgb(49, 148, 208); text-decoration: none; cursor: pointer; font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">http://localhost:4000</a>
+                            <span style="color: rgb(47, 47, 47); font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;">，能看到如下页面：</span>
+                          </div>
+                          <div>
+                            <br>
+                          </div>
+                          <div>
+                            <div style="max-height: 394px; background-color: transparent;">
+                              <div>
+                                <img style="cursor: zoom-in; height: auto;" src="//upload-images.jianshu.io/upload_images/985173-6538ff6c494aeb9d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700">
+                              </div>
+                            </div>
+                          </div>
+                          <div>
+                            <br>
+                          </div>
+                          <div>
+                            <br>
+                          </div>
+                          <div>
+                            <h2 style="box-sizing: border-box; font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-weight: 700; color: rgb(47, 47, 47); margin: 0px 0px 15px; font-size: 24px; text-rendering: optimizeLegibility; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial;">关联Github</h2>
+                            <h3 style="box-sizing: border-box; font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-weight: 700; color: rgb(47, 47, 47); margin: 0px 0px 15px; font-size: 22px; text-rendering: optimizeLegibility; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial;">1.创建仓库</h3>
+                            <div style="box-sizing: border-box; margin: 0px 0px 25px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial; word-break: break-word !important;">
+                              <div>
+                                <span style="font-size: 16px;">
+                                  <span style="font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif;">
+                                    <span style="color: rgb(47, 47, 47);">登录你的Github帐号，新建仓库，名为</span>
+                                  </span>
+                                </span>
+                                <code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(101, 123, 131); background-color: rgb(246, 246, 246); border-radius: 4px; padding: 2px 4px; border: none; white-space: pre-wrap;">用户名.github.io</code>
+                                <span style="font-size: 16px;">
+                                  <span style="font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif;">
+                                    <span style="color: rgb(47, 47, 47);">固定写法，如</span>
+                                  </span>
+                                </span>
+                                <code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(101, 123, 131); background-color: rgb(246, 246, 246); border-radius: 4px; padding: 2px 4px; border: none; white-space: pre-wrap;">gordonpangsj.github.io</code>
+                                <span style="font-size: 16px;">
+                                  <span style="font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif;">
+                                    <span style="color: rgb(47, 47, 47);">即下图中</span>
+                                  </span>
+                                </span>
+                                <code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(101, 123, 131); background-color: rgb(246, 246, 246); border-radius: 4px; padding: 2px 4px; border: none; white-space: pre-wrap;">1</code>
+                                <span style="font-size: 16px;">
+                                  <span style="font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif;">
+                                    <span style="color: rgb(47, 47, 47);">所示：</span>
+                                  </span>
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <img class="en-media" src="https://app.yinxiang.com/shard/s54/res/c8f512bd-17d7-4429-b776-4a8cf68b446f" data-en-resource-reference="resource-1"
+                  style="height: auto;">
+              </div>
+              <div>
+                <br>
+              </div>
+              <div>
+                <span style="color: rgb(47, 47, 47); font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;">本地的</span>
+                <code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(101, 123, 131); background-color: rgb(246, 246, 246); border-radius: 4px; padding: 2px 4px; border: none; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;">Blog</code>
+                <span style="color: rgb(47, 47, 47); font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;">文件夹下内容为：</span>
+              </div>
+              <div>
+                <span style="font-size: 16px;">
+                  <span style="font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif;">
+                    <span style="background-color: rgb(255, 255, 255);">
+                      <span style="color: rgb(47, 47, 47);">
+                        <br>
+                      </span>
+                    </span>
+                  </span>
+                </span>
+              </div>
+              <div>
+                <pre style="box-sizing: border-box; overflow: auto; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 13px; display: block; padding: 15px; margin: 0px 0px 20px; word-break: break-word !important; word-wrap: normal; color: rgb(101, 123, 131); background: rgb(246, 246, 246); border: 1px solid rgb(204, 204, 204); border-radius: 0px; text-size-adjust: none; white-space: pre; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(101, 123, 131); background-color: transparent; border-radius: 0px; padding: 0px; white-space: pre; border: none;">_<span style="box-sizing: border-box;">config</span><span style="box-sizing: border-box;">.yml</span> 
+  <span style="box-sizing: border-box;">db</span><span style="box-sizing: border-box;">.json</span> 
+  <span style="box-sizing: border-box;">node_modules</span> 
+  <span style="box-sizing: border-box;">package</span><span style="box-sizing: border-box;">.json</span>
+  <span style="box-sizing: border-box;">scaffolds</span>
+  <span style="box-sizing: border-box;">source</span>
+  <span style="box-sizing: border-box;">themes</span>
+  </code></pre>
+              </div>
+              <div>
+                <span style="color: rgb(47, 47, 47); font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;">终端cd到</span>
+                <code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(101, 123, 131); background-color: rgb(246, 246, 246); border-radius: 4px; padding: 2px 4px; border: none; white-space: pre-wrap; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;">blog</code>
+                <span style="color: rgb(47, 47, 47); font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;">文件夹下，</span>
+                <code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(101, 123, 131); background-color: rgb(246, 246, 246); border-radius: 4px; padding: 2px 4px; border: none; white-space: pre-wrap; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;">vim</code>
+                <span style="color: rgb(47, 47, 47); font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;">打开</span>
+                <code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(101, 123, 131); background-color: rgb(246, 246, 246); border-radius: 4px; padding: 2px 4px; border: none; white-space: pre-wrap; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;">_config.yml</code>
+                <span style="color: rgb(47, 47, 47); font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;">，命令如下：</span>
+              </div>
+              <div>
+                <span style="font-size: 16px;">
+                  <span style="font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif;">
+                    <span style="background-color: rgb(255, 255, 255);">
+                      <span style="color: rgb(47, 47, 47);">
+                        <br>
+                      </span>
+                    </span>
+                  </span>
+                </span>
+              </div>
+              <div>
+                <pre style="box-sizing: border-box; overflow: auto; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 13px; display: block; padding: 15px; margin: 0px 0px 20px; word-break: break-word !important; word-wrap: normal; color: rgb(101, 123, 131); background: rgb(246, 246, 246); border: 1px solid rgb(204, 204, 204); border-radius: 0px; text-size-adjust: none; white-space: pre; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(101, 123, 131); background-color: transparent; border-radius: 0px; padding: 0px; white-space: pre; border: none;">$ vim _config.yml</code></pre>
+              </div>
+              <div>
+                <span style="color: rgb(47, 47, 47); font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;">打开后往下滑到最后，修改成下边的样子：</span>
+              </div>
+              <div>
+                <br>
+              </div>
+              <div>
+                <div style="box-sizing: border-box; overflow: auto; display: block; padding: 15px; margin: 0px 0px 20px; background: rgb(246, 246, 246); border: 1px solid rgb(204, 204, 204); border-radius: 0px; text-size-adjust: none; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;">
+                  <code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(101, 123, 131); background-color: transparent; border-radius: 0px; padding: 0px; border: none;">deploy:<br>&nbsp; <span style="box-sizing: border-box; color: rgb(38, 139, 210);">type</span>:&nbsp;git</code>
+                  <div>
+                    <span style="color: rgb(101, 123, 131);">
+                      <span style="font-size: 13px;">
+                        <span style="font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace;">
+                          <span style="font-size: 12px;">
+                            <span style="background-color: transparent;">&nbsp; repository: </span>
+                          </span>
+                        </span>
+                      </span>
+                    </span>
+                    <span style="color: rgb(101, 123, 131);">
+                      <span style="font-size: 13px;">
+                        <span style="font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace;">
+                          <span style="font-size: 12px;">
+                            <span style="background-color: transparent;">https://github.com/GordonPangsj/gordonpangsj.github.io.git</span>
+                          </span>
+                        </span>
+                      </span>
+                    </span>
+                  </div>
+                  <div>
+                    <span style="color: rgb(101, 123, 131);">
+                      <span style="font-size: 13px;">
+                        <span style="font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace;">
+                          <span style="font-size: 12px;">
+                            <span style="background-color: transparent;">&nbsp; branch:&nbsp;master&nbsp; &nbsp; &nbsp;</span>
+                          </span>
+                        </span>
+                      </span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <span style="color: rgb(47, 47, 47); font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;">你需要将</span>
+                <code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(101, 123, 131); background-color: rgb(246, 246, 246); border-radius: 4px; padding: 2px 4px; border: none; white-space: pre-wrap; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;">repository</code>
+                <span style="color: rgb(47, 47, 47); font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;">后</span>
+                <code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(101, 123, 131); background-color: rgb(246, 246, 246); border-radius: 4px; padding: 2px 4px; border: none; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;">gordonpangsj</code>
+                <span style="color: rgb(47, 47, 47); font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;">换成你自己的用户名，地址在上图</span>
+                <code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(101, 123, 131); background-color: rgb(246, 246, 246); border-radius: 4px; padding: 2px 4px; border: none; white-space: pre-wrap; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;">2</code>
+                <span style="color: rgb(47, 47, 47); font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;">位置获取。hexo 3.1.1版本后</span>
+                <code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(101, 123, 131); background-color: rgb(246, 246, 246); border-radius: 4px; padding: 2px 4px; border: none; white-space: pre-wrap; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;">type:</code>
+                <span style="color: rgb(47, 47, 47); font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;">值为</span>
+                <code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(101, 123, 131); background-color: rgb(246, 246, 246); border-radius: 4px; padding: 2px 4px; border: none; white-space: pre-wrap; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;">git</code>
+                <span style="color: rgb(47, 47, 47); font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;">。</span>
+              </div>
+              <div>
+                <br>
+              </div>
+              <div>
+                <span style="color: rgb(47, 47, 47); font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(247, 247, 247); text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;">注意坑二：在配置所有的</span>
+                <code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(101, 123, 131); background-color: rgb(246, 246, 246); border-radius: 4px; padding: 2px 4px; border: none; white-space: pre-wrap; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;">_config.yml</code>
+                <span style="color: rgb(47, 47, 47); font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(247, 247, 247); text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;">文件时（包括theme中的，在所有的冒号</span>
+                <code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(101, 123, 131); background-color: rgb(246, 246, 246); border-radius: 4px; padding: 2px 4px; border: none; white-space: pre-wrap; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;">:</code>
+                <span style="color: rgb(47, 47, 47); font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(247, 247, 247); text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;">后边都要加一个空格，否则执行hexo命令会报错，切记&nbsp;</span>
+              </div>
+              <div>
+                <span style="font-size: 16px;">
+                  <span style="font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif;">
+                    <span style="background-color: rgb(247, 247, 247);">
+                      <span style="color: rgb(47, 47, 47);">
+                        <br>
+                      </span>
+                    </span>
+                  </span>
+                </span>
+              </div>
+              <div>
+                <span style="color: rgb(47, 47, 47); font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;">在</span>
+                <code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(101, 123, 131); background-color: rgb(246, 246, 246); border-radius: 4px; padding: 2px 4px; border: none; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;">Blog</code>
+                <span style="color: rgb(47, 47, 47); font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;">文件夹目录下执行生成静态页面命令：</span>
+              </div>
+              <div>
+                <span style="font-size: 16px;">
+                  <span style="font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif;">
+                    <span style="background-color: rgb(247, 247, 247);">
+                      <span style="color: rgb(47, 47, 47);">
+                        <br>
+                      </span>
+                    </span>
+                  </span>
+                </span>
+              </div>
+              <div>
+                <pre style="box-sizing: border-box; overflow: auto; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 13px; display: block; padding: 15px; margin: 0px 0px 20px; word-break: break-word !important; word-wrap: normal; color: rgb(101, 123, 131); background: rgb(246, 246, 246); border: 1px solid rgb(204, 204, 204); border-radius: 0px; text-size-adjust: none; white-space: pre; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(101, 123, 131); background-color: transparent; border-radius: 0px; padding: 0px; white-space: pre; border: none;">$ hexo generate     或者：hexo g  </code></pre>
+              </div>
+              <div>
+                <span style="color: rgb(47, 47, 47); font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;">此时若出现如下报错：</span>
+              </div>
+              <div>
+                <span style="font-size: 16px;">
+                  <span style="font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif;">
+                    <span style="background-color: rgb(247, 247, 247);">
+                      <span style="color: rgb(47, 47, 47);">
+                        <br>
+                      </span>
+                    </span>
+                  </span>
+                </span>
+              </div>
+              <div>
+                <pre style="box-sizing: border-box; overflow: auto; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 13px; display: block; padding: 15px; margin: 0px 0px 20px; word-break: break-word !important; word-wrap: normal; color: rgb(101, 123, 131); background: rgb(246, 246, 246); border: 1px solid rgb(204, 204, 204); border-radius: 0px; text-size-adjust: none; white-space: pre; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(101, 123, 131); background-color: transparent; border-radius: 0px; padding: 0px; white-space: pre; border: none;">ERROR Local hexo <span style="box-sizing: border-box; color: rgb(133, 153, 0);">not</span> found <span style="box-sizing: border-box; color: rgb(133, 153, 0);">in</span> ~/blog
+  ERROR Try runing: <span style="box-sizing: border-box; color: rgb(42, 161, 152);">'npm install hexo --save'</span></code></pre>
+              </div>
+              <div>
+                <span style="color: rgb(47, 47, 47); font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;">则执行命令：</span>
+              </div>
+              <div>
+                <span style="font-size: 16px;">
+                  <span style="font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif;">
+                    <span style="background-color: rgb(247, 247, 247);">
+                      <span style="color: rgb(47, 47, 47);">
+                        <br>
+                      </span>
+                    </span>
+                  </span>
+                </span>
+              </div>
+              <div>
+                <pre style="box-sizing: border-box; overflow: auto; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 13px; display: block; padding: 15px; margin: 0px 0px 20px; word-break: break-word !important; word-wrap: normal; color: rgb(101, 123, 131); background: rgb(246, 246, 246); border: 1px solid rgb(204, 204, 204); border-radius: 0px; text-size-adjust: none; white-space: pre; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(101, 123, 131); background-color: transparent; border-radius: 0px; padding: 0px; white-space: pre; border: none;">$ npm install hexo --save
+  </code></pre>
+                <br>
+              </div>
+              <div>
+                <p style="box-sizing: border-box; margin: 0px 0px 25px; word-break: break-word !important; color: rgb(47, 47, 47); font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial;">若无报错，自行忽略此步骤。</p>
+                <p style="box-sizing: border-box; margin: 0px 0px 25px; word-break: break-word !important; color: rgb(47, 47, 47); font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial;">再执行配置命令：</p>
+              </div>
+              <div>
+                <pre style="box-sizing: border-box; overflow: auto; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 13px; display: block; padding: 15px; margin: 0px 0px 20px; word-break: break-word !important; word-wrap: normal; color: rgb(101, 123, 131); background: rgb(246, 246, 246); border: 1px solid rgb(204, 204, 204); border-radius: 0px; text-size-adjust: none; white-space: pre; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(101, 123, 131); background-color: transparent; border-radius: 0px; padding: 0px; white-space: pre; border: none;">$ hexo deploy           或者：hexo d</code></pre>
+              </div>
+              <div>
+                <span style="color: rgb(47, 47, 47); font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(247, 247, 247); text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;">注意坑三：若执行命令</span>
+                <code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(101, 123, 131); background-color: rgb(246, 246, 246); border-radius: 4px; padding: 2px 4px; border: none; white-space: pre-wrap; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;">hexo deploy</code>
+                <span style="color: rgb(47, 47, 47); font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(247, 247, 247); text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;">仍然报错：无法连接git或找不到git，则执行如下命令来安装</span>
+                <a href="https://link.jianshu.com/?t=https%3A%2F%2Fgithub.com%2Fhexojs%2Fhexo-deployer-git"
+                  target="_blank" rel="nofollow" style="box-sizing: border-box; background-color: rgb(247, 247, 247); color: rgb(49, 148, 208); text-decoration: none; cursor: pointer; font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">hexo-deployer-git</a>
+                <span style="color: rgb(47, 47, 47); font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(247, 247, 247); text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;">：</span>
+              </div>
+              <div>
+                <span style="font-size: 16px;">
+                  <span style="font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif;">
+                    <span style="background-color: rgb(247, 247, 247);">
+                      <span style="color: rgb(47, 47, 47);">
+                        <br>
+                      </span>
+                    </span>
+                  </span>
+                </span>
+              </div>
+              <div>
+                <pre style="box-sizing: border-box; overflow: auto; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 13px; display: block; padding: 15px; margin: 0px 0px 20px; word-break: break-word !important; word-wrap: normal; color: rgb(101, 123, 131); background: rgb(246, 246, 246); border: 1px solid rgb(204, 204, 204); border-radius: 0px; text-size-adjust: none; white-space: pre; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;"><code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(101, 123, 131); background-color: transparent; border-radius: 0px; padding: 0px; white-space: pre; border: none;">$ npm install hexo-deployer-git --save      </code></pre>
+              </div>
+              <div>
+                <p style="box-sizing: border-box; margin: 0px 0px 25px; word-break: break-word !important; color: rgb(47, 47, 47); font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial;">再次执行
+                  <code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(101, 123, 131); background-color: rgb(246, 246, 246); border-radius: 4px; padding: 2px 4px; border: none; white-space: pre-wrap;">hexo generate</code>和
+                  <code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(101, 123, 131); background-color: rgb(246, 246, 246); border-radius: 4px; padding: 2px 4px; border: none; white-space: pre-wrap;">hexo deploy</code>命令。</p>
+                <p style="box-sizing: border-box; margin: 0px 0px 25px; word-break: break-word !important; color: rgb(47, 47, 47); font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial;">若你未关联Github，则执行
+                  <code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(101, 123, 131); background-color: rgb(246, 246, 246); border-radius: 4px; padding: 2px 4px; border: none; white-space: pre-wrap;">hexo deploy</code>命令时终端会提示你输入Github的用户名和密码，即</p>
+              </div>
+              <div>
+                <div style="box-sizing: border-box; overflow: auto; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 13px; display: block; padding: 15px; margin: 0px 0px 20px; color: rgb(101, 123, 131); background: rgb(246, 246, 246); border: 1px solid rgb(204, 204, 204); border-radius: 0px; text-size-adjust: none; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;">
+                  <code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(101, 123, 131); background-color: transparent; border-radius: 0px; padding: 0px; border: none;">Username&nbsp;<span style="box-sizing: border-box; color: rgb(133, 153, 0);">for</span>&nbsp;<span style="box-sizing: border-box; color: rgb(42, 161, 152);">'https://github.com'</span>:</code>
+                  <div>
+                    <span style="font-size: 12px;">
+                      <span style="background-color: transparent;">Password&nbsp;</span>
+                      <span style="box-sizing: border-box; color: rgb(133, 153, 0);">
+                        <span style="background-color: transparent;">for</span>
+                      </span>
+                      <span style="background-color: transparent;">&nbsp;</span>
+                      <span style="box-sizing: border-box; color: rgb(42, 161, 152);">
+                        <span style="background-color: transparent;">'https://github.com'</span>
+                      </span>
+                      <span style="background-color: transparent;">:</span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(101, 123, 131); background-color: rgb(246, 246, 246); border-radius: 4px; padding: 2px 4px; border: none; white-space: pre-wrap; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;">hexo deploy</code>
+                <span style="color: rgb(47, 47, 47); font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;">命令执行成功后，浏览器中打开网址</span>
+                <a href="https://link.jianshu.com/?t=http%3A%2F%2Fgonghonglou.github.io" target="_blank"
+                  rel="nofollow" style="box-sizing: border-box; background-color: rgb(255, 255, 255); color: rgb(49, 148, 208); text-decoration: none; cursor: pointer; font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px;">https://gordonpangsj.github.io</a>
+                <span style="color: rgb(47, 47, 47); font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;">（将</span>
+                <code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(101, 123, 131); background-color: rgb(246, 246, 246); border-radius: 4px; padding: 2px 4px; border: none; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;">gordonpangsj</code>
+                <span style="color: rgb(47, 47, 47); font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;">换成你的用户名）能看到和打开</span>
+                <code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(101, 123, 131); background-color: rgb(246, 246, 246); border-radius: 4px; padding: 2px 4px; border: none; white-space: pre-wrap; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;">http://localhost:4000</code>
+                <span style="color: rgb(47, 47, 47); font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;">时一样的页面。</span>
+              </div>
+              <div>
+                <br>
+              </div>
+              <div>
+                <br>
+              </div>
+              <div>
+                <div style="box-sizing: border-box; font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-weight: 700; color: rgb(47, 47, 47); margin: 0px 0px 15px; font-size: 22px; text-rendering: optimizeLegibility; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial;">
+                  <div>2.发布文章</div>
+                </div>
+                <div style="box-sizing: border-box; margin: 0px 0px 25px; word-break: break-word !important; color: rgb(47, 47, 47); font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial;">
+                  <div>终端cd到
+                    <code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(101, 123, 131); background-color: rgb(246, 246, 246); border-radius: 4px; padding: 2px 4px; border: none;">Blog</code>文件夹下，执行如下命令新建文章：</div>
+                </div>
+              </div>
+              <div>
+                <div style="box-sizing: border-box; overflow: auto; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 13px; display: block; padding: 15px; margin: 0px 0px 20px; color: rgb(101, 123, 131); background: rgb(246, 246, 246); border: 1px solid rgb(204, 204, 204); border-radius: 0px; text-size-adjust: none; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;">
+                  <div>
+                    <code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(101, 123, 131); background-color: transparent; border-radius: 0px; padding: 0px; border: none;">hexo&nbsp;<span style="box-sizing: border-box; color: rgb(133, 153, 0);">new</span>&nbsp;<span style="box-sizing: border-box; color: rgb(42, 161, 152);">"Hello Hexo"</span>&nbsp;</code>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div style="box-sizing: border-box; margin: 0px 0px 25px; word-break: break-word !important; color: rgb(47, 47, 47); font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial;">
+                  <div>名为
+                    <code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(101, 123, 131); background-color: rgb(246, 246, 246); border-radius: 4px; padding: 2px 4px; border: none; white-space: pre-wrap;">Hello Hexo.md</code>的文件会建在目录
+                    <code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(101, 123, 131); background-color: rgb(246, 246, 246); border-radius: 4px; padding: 2px 4px; border: none;">/Blog/source/_posts</code>下。你当然可以用vim来编辑文章。我在用Mou编辑器，支持预览，不过MacOS Sierra并不支持，如果你有好用的markdown编辑器请推荐给我，感激不尽！</div>
+                </div>
+              </div>
+              <div>
+                <span style="color: rgb(47, 47, 47); font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;">文章编辑完成后，终端cd到</span>
+                <code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(101, 123, 131); background-color: rgb(246, 246, 246); border-radius: 4px; padding: 2px 4px; border: none; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;">Blog</code>
+                <span style="color: rgb(47, 47, 47); font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;">文件夹下，执行如下命令来发布：</span>
+              </div>
+              <div>
+                <br>
+              </div>
+              <div>
+                <div style="box-sizing: border-box; overflow: auto; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 13px; display: block; padding: 15px; margin: 0px 0px 20px; color: rgb(101, 123, 131); background: rgb(246, 246, 246); border: 1px solid rgb(204, 204, 204); border-radius: 0px; text-size-adjust: none; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;">
+                  <code style="box-sizing: border-box; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(101, 123, 131); background-color: transparent; border-radius: 0px; padding: 0px; border: none;">hexo&nbsp;generate&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="box-sizing: border-box; color: rgb(147, 161, 161);">//生成静态页面</span><br><br></code>
+                  <div>
+                    <span style="font-size: 12px;">
+                      <span style="background-color: transparent;">hexo&nbsp;deploy&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
+                      <span
+                        style="box-sizing: border-box; color: rgb(147, 161, 161);">
+                        <span style="background-color: transparent;">//将文章部署到Github</span>
+                    </span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <strong style="box-sizing: border-box; font-weight: 700; color: rgb(47, 47, 47); font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial;">至此，Mac上搭建基于Github的Hexo博客就完成了。</strong>
+              </div>
+              <div>
+                <b>
+                  <span style="font-size: 16px;">
+                    <span style="font-family: -apple-system, &quot;SF UI Text&quot;, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;WenQuanYi Micro Hei&quot;, sans-serif;">
+                      <span style="background-color: rgb(255, 255, 255);">
+                        <span style="color: rgb(47, 47, 47);">
+                          <br>
+                        </span>
+                      </span>
+                    </span>
+                  </span>
+                </b>
+              </div>
+              <div>
+                <div style="font-family: Lato, &quot;PingFang SC&quot;, &quot;Microsoft YaHei&quot;, sans-serif; text-align: justify; color: rgb(85, 85, 85); font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial;">
+                  <div>
+                    <span style="font-size: 22px;">
+                      <b>Reference</b>
+                    </span>
+                  </div>
+                  <ul>
+                    <li style="list-style: circle;">
+                      <a href="https://hexo.io/docs" target="_blank" rel="external" style="background-color: transparent; color: rgb(85, 85, 85); text-decoration: none; border-bottom: 1px solid rgb(204, 204, 204); word-wrap: break-word;">Hexo官网</a>
+                    </li>
+                    <li style="list-style: circle;">
+                      <a href="http://leopardpan.github.io/2015/08/12/hexo/" target="_blank" rel="external" style="background-color: transparent; color: rgb(85, 85, 85); text-decoration: none; border-bottom: 1px solid rgb(204, 204, 204); word-wrap: break-word;">HEXO</a>
+                    </li>
+                    <li style="list-style: circle;">
+                      <a href="http://www.jianshu.com/p/31cbbbc5f9fa/" target="_blank" rel="external" style="background-color: transparent; color: rgb(85, 85, 85); text-decoration: none; border-bottom: 1px solid rgb(204, 204, 204); word-wrap: break-word;">如何生成SSH key</a>
+                    </li>
+                  </ul>
+                </div>
+                <div style="color: rgb(85, 85, 85); font-family: Lato, &quot;PingFang SC&quot;, &quot;Microsoft YaHei&quot;, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial;"></div>
+                <div style="color: rgb(85, 85, 85); font-family: Lato, &quot;PingFang SC&quot;, &quot;Microsoft YaHei&quot;, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial;"></div>
+                <div style="color: rgb(85, 85, 85); font-family: Lato, &quot;PingFang SC&quot;, &quot;Microsoft YaHei&quot;, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial;"></div>
+                <div style="display: block; color: rgb(85, 85, 85); font-family: Lato, &quot;PingFang SC&quot;, &quot;Microsoft YaHei&quot;, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial;">
+                  <div style="display: table; margin-top: 40px; width: 900px; border-top: 1px solid rgb(238, 238, 238);">
+                    <br>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <br>
+              </div>
+              <div>
+                <br>
+              </div>
+              <div>
+                <br>
+              </div>
+              <div>
+                <br>
+              </div>
+              <div>
+                <br>
+              </div>
+              <div>
+                <br>
+              </div>
+              <div>
+                <br>
+              </div>
+              <div>
+                <br>
+              </div>
+              <div>
+                <br>
+              </div>
+              <div>
+                <br>
+              </div>
+              <div>
+                <br>
+              </div>
+              <div>
+                <br>
+              </div>
+              <div>
+                <br>
+              </div>
+              <div>
+                <br>
+              </div>
+              <div>
+                <br>
+              </div>
+              <div>
+                <br>
+              </div>
+              <div>
+                <br>
+              </div>
+              <div>
+                <br>
+              </div>
+              <div>
+                <br>
+              </div>
+              <div>
+                <br>
+              </div>
+              <div>
+                <br>
+              </div>
+            </div>
+          </div>
 
-      
-    </div>
+
+          <div style="height: 100pt; left: -100%; position: absolute; top: -100%; width: 100pt; "></div>
+          <div style="position:absolute; top: 0; left: 0; width: 0; height: 0;" class="en-preload"></div>
+          <div class="en-tools" id="en-tools"></div>
+          <div style="height: 100pt; left: -100%; position: absolute; top: -100%; width: 100pt; "></div>
+
+        </div>
+        <footer class="article-footer">
+          <a data-url="http://yoursite.com/2018/03/15/Hello-Hexo/" data-id="cjezt7ohr00010n46b9lzimi4" class="article-share-link">Compartir</a>
+
+
+        </footer>
+      </div>
     <footer class="article-footer">
       <a data-url="http://yoursite.com/2018/03/15/Mac上搭建基于GitHub的Hexo博客/" data-id="cjezt7ohd00000n46iygtwhgk" class="article-share-link">Compartir</a>
       
